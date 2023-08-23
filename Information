@@ -17,7 +17,7 @@ WHERE assalariado_ou_horista = 'Salary'
 
 ii) Obtenha a média dos salários, considerando apenas quem recebe salário por hora.
 
-SELECT avg("Hourly Rate" * 251 * horas_tipicas / 5) from chicago 
+SELECT avg("Hourly Rate" * 251 * horas_tipicas / 5) FROM chicago 
 WHERE assalariado_ou_horista = 'Hourly'
 
 iii) Verifique qual é a maior média (dos assalariados ou dos horistas).
@@ -25,7 +25,7 @@ iii) Verifique qual é a maior média (dos assalariados ou dos horistas).
 SELECT avg(salario_anual) FROM chicago
 WHERE assalariado_ou_horista = 'Salary'
 UNION
-SELECT avg("Hourly Rate" * 251 * horas_tipicas / 5) from chicago 
+SELECT avg("Hourly Rate" * 251 * horas_tipicas / 5) FROM chicago 
 WHERE assalariado_ou_horista = 'Hourly'
 
 usando visão:
