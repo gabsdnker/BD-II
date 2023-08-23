@@ -34,5 +34,5 @@ CREATE view salarios AS
 SELECT avg(salario_anual) FROM chicago
 WHERE assalariado_ou_horista = 'Salary'
 UNION
-SELECT avg("Hourly Rate" * 251 * horas_tipicas / 5) from chicago 
+SELECT avg("Hourly Rate" * 251 * horas_tipicas / 5) FROM chicago 
 WHERE assalariado_ou_horista = 'Hourly'
