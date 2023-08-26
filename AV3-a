@@ -14,3 +14,47 @@ Na entrega da tarefa:
 a) apresente o valor x encontrado
 b) apresente o(s) SQL(s) utilizado(s) para encontrar x
 c) apresente o comando update
+
+-- 1) Calcular as médias salariais dos grupos horistas e assalariados
+SELECT
+  AVG(CASE WHEN "Salary or Hourly"  = 'Hourly' THEN "Hourly Rate" ELSE NULL END) AS media_salario_horista,
+  AVG(CASE WHEN "Salary or Hourly" = 'Salary' THEN "Annual Salary" ELSE NULL END) AS media_salario_assalariado
+FROM chicago;
+
+-- 2) Encontrar o fator multiplicador "x" para ajustar os salários dos horistas
+WITH medias AS (
+    SELECT
+      AVG(CASE WHEN "Salary or Hourly" = 'Hourly' THEN "Hourly Rate" ELSE NULL END) AS media_salario_horista,
+    AVG(CASE WHEN "Salary or Hourly" = 'Salary' THEN "Annual Salary" ELSE NULL END) AS media_salario_assalariado
+ FROM chicago
+)
+SELECT
+  media_salario_assalariado / media_salario_horista AS fator_multiplicador
+FROM medias;
+
+-- 3) Calcular o incremento percentual necessário para tornar as médias similares
+WITH medias AS (
+   SELECT
+    AVG(CASE WHEN "Salary or Hourly" = 'Hourly' THEN "Hourly Rate" ELSE NULL END) AS media_salario_horista,
+   AVG(CASE WHEN "Salary or Hourly" = 'Salary' THEN "Annual Salary" ELSE NULL END) AS media_salario_assalariado
+ FROM chicago
+)
+SELECT
+   (media_salario_assalariado - media_salario_horista) / media_salario_horista AS incremento_percentual
+FROM medias;
+
+-- 4) Atualizar os salários dos horistas com o fator multiplicador calculado
+WITH medias AS (
+SELECT
+AVG(CASE WHEN "Salary or Hourly" = 'Hourly' THEN "Hourly Rate" ELSE NULL END) AS media_salario_horista,
+AVG(CASE WHEN "Salary or Hourly" = 'Salary' THEN "Annual Salary" ELSE NULL END) AS media_salario_assalariado
+ FROM chicago
+)
+UPDATE chicago
+SET "Hourly Rate" = "Hourly Rate" * (SELECT media_salario_assalariado / media_salario_horista FROM medias WHERE "Salary or Hourly" = 'Hourly');
+
+-- 5) Verificar se as médias estão similares após a atualização
+SELECT
+  AVG(CASE WHEN "Salary or Hourly" = 'Hourly' THEN "Hourly Rate" ELSE NULL END) AS media_salario_horista_atualizada,
+  AVG(CASE WHEN "Salary or Hourly" = 'Salary' THEN "Annual Salary" ELSE NULL END) AS media_salario_assalariado_atualizada
+FROM chicago;
