@@ -69,7 +69,7 @@ import mysql.connector
 connection = mysql.connector.connect(
     host="localhost",
     user="seu_usuario",
-    password="sua_senha",
+    password="root",
     database="sakila"
 )
 
