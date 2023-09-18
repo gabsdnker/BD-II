@@ -53,31 +53,4 @@ A2) fornecer o comando de criação de uma visão;
 
 
 A3) elaborar um programa (sugestão: em python) que percorra os registros obtidos por um dos comandos SQL's que foi criado nos itens "a" a "h".
-import mysql.connector
 
-# Conectar ao banco de dados
-connection = mysql.connector.connect(
-    host="gabi/sakila.db",
-    user="root",
-    password="root",
-    database="sakila"
-)
-
-# Criar um cursor
-cursor = connection.cursor()
-
-# Executar a consulta SQL
-sql_query = """
-    SELECT customer.first_name, customer.last_name, rental.return_date
-    FROM customer
-    LEFT JOIN rental ON customer.customer_id = rental.customer_id;
-"""
-cursor.execute(sql_query)
-
-# Percorrer os registros e imprimir
-for (first_name, last_name, return_date) in cursor:
-    print(f"{first_name} {last_name} - Data de Devolução: {return_date}")
-
-# Fechar cursor e conexão
-cursor.close()
-connection.close()
