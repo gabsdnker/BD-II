@@ -35,6 +35,7 @@ d) unique ou distinct
   SELECT DISTINCT rating
   FROM film;
 
+
 e) junções naturais
 
  
@@ -53,4 +54,16 @@ A2) fornecer o comando de criação de uma visão;
 
 
 A3) elaborar um programa (sugestão: em python) que percorra os registros obtidos por um dos comandos SQL's que foi criado nos itens "a" a "h".
+
+IMPORTAÇÃO DB SAKILA
+
+$ mysql 
+mysql> source sakila-schema.sql
+mysql> source sakila-data.sql
+mysql> select * from actor;
+mysql> exit
+
+No laboratório do IFC, use: 
+$ mysql -u root -p
+(a senha é root)
 
