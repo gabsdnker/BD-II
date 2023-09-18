@@ -36,24 +36,18 @@ d) unique ou distinct
   FROM film;
 
 e) junções naturais
-  SELECT actor_id, first_name, last_name, film_id
-  FROM actor NATURAL JOIN film_actor;
 
+ 
 f) junção left ou right
   SELECT customer.first_name, customer.last_name, rental.return_date
   FROM customer
   LEFT JOIN rental ON customer.customer_id = rental.customer_id;
 
 g) agregação
-  SELECT category, AVG(rental_duration) AS avg_duration
-  FROM film
-  GROUP BY category;
+  
 
 h) group by
-  SELECT city, COUNT(*) AS num_customers
-  FROM address
-  JOIN customer ON address.address_id = customer.address_id
-  GROUP BY city;
+
 
 A2) fornecer o comando de criação de uma visão;
   CREATE VIEW view_customer_rental AS
