@@ -50,11 +50,7 @@ h) group by
 
 
 A2) fornecer o comando de criação de uma visão;
-  CREATE VIEW view_customer_rental AS
-  SELECT c.customer_id, c.first_name, c.last_name, COUNT(r.rental_id) AS num_rentals
-  FROM customer c
-  LEFT JOIN rental r ON c.customer_id = r.customer_id
-  GROUP BY c.customer_id, c.first_name, c.last_name;
+
 
 A3) elaborar um programa (sugestão: em python) que percorra os registros obtidos por um dos comandos SQL's que foi criado nos itens "a" a "h".
 import mysql.connector
