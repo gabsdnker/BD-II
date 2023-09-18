@@ -7,20 +7,87 @@ AÇÕES A SEREM FEITAS:
 A1) elaborar e fornecer comandos SQL que utilizem os recursos abaixo. Além do comando SQL, você deve fornecer também uma descrição textual explicando no que consistem os resultados retornados. Caso queira, pode também explicar o SQL.
 
 a) consultas aninhadas
+  SELECT *
+  FROM film
+  WHERE film_id IN (SELECT film_id FROM inventory WHERE store_id = 1);
+
 b) consultas aninhadas correlacionadas
+  SELECT customer_id, first_name, last_name
+  FROM customer c
+  WHERE EXISTS (
+      SELECT 1
+      FROM rental r
+      WHERE r.customer_id = c.customer_id
+      AND r.return_date IS NULL
+  );
+
 c) exists 
+  SELECT title
+  FROM film
+  WHERE EXISTS (
+      SELECT 1
+      FROM inventory
+      WHERE inventory.film_id = film.film_id
+      AND inventory.store_id = 1
+  );
+
 d) unique ou distinct
+  SELECT DISTINCT rating
+  FROM film;
+
 e) junções naturais
+  SELECT actor_id, first_name, last_name, film_id
+  FROM actor NATURAL JOIN film_actor;
+
 f) junção left ou right
+  SELECT customer.first_name, customer.last_name, rental.return_date
+  FROM customer
+  LEFT JOIN rental ON customer.customer_id = rental.customer_id;
+
 g) agregação
+  SELECT category, AVG(rental_duration) AS avg_duration
+  FROM film
+  GROUP BY category;
+
 h) group by
+  SELECT city, COUNT(*) AS num_customers
+  FROM address
+  JOIN customer ON address.address_id = customer.address_id
+  GROUP BY city;
 
 A2) fornecer o comando de criação de uma visão;
+  CREATE VIEW view_customer_rental AS
+  SELECT c.customer_id, c.first_name, c.last_name, COUNT(r.rental_id) AS num_rentals
+  FROM customer c
+  LEFT JOIN rental r ON c.customer_id = r.customer_id
+  GROUP BY c.customer_id, c.first_name, c.last_name;
 
 A3) elaborar um programa (sugestão: em python) que percorra os registros obtidos por um dos comandos SQL's que foi criado nos itens "a" a "h".
+import mysql.connector
 
-PARA TODAS AS RESPOSTAS FORNEÇA TAMBÉM um ou mais print's da tela, demonstrando a execução do comando.
+# Conectar ao banco de dados
+connection = mysql.connector.connect(
+    host="localhost",
+    user="seu_usuario",
+    password="sua_senha",
+    database="sakila"
+)
 
-O envio ocorrerá por meio de um link de acesso aos arquivos (endereço de repositório, google drive, etc). Sugere-se o uso de repositórios para compor portfólio pessoal de aprendizagem.
+# Criar um cursor
+cursor = connection.cursor()
 
-FIM
+# Executar a consulta SQL
+sql_query = """
+    SELECT customer.first_name, customer.last_name, rental.return_date
+    FROM customer
+    LEFT JOIN rental ON customer.customer_id = rental.customer_id;
+"""
+cursor.execute(sql_query)
+
+# Percorrer os registros e imprimir
+for (first_name, last_name, return_date) in cursor:
+    print(f"{first_name} {last_name} - Data de Devolução: {return_date}")
+
+# Fechar cursor e conexão
+cursor.close()
+connection.close()
