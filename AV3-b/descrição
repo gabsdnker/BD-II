@@ -57,8 +57,8 @@ import mysql.connector
 
 # Conectar ao banco de dados
 connection = mysql.connector.connect(
-    host="localhost",
-    user="seu_usuario",
+    host="gabi/sakila.db",
+    user="root",
     password="root",
     database="sakila"
 )
