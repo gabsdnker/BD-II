@@ -95,7 +95,17 @@ h) group by
   GROUP BY rating;
 
 A2) fornecer o comando de criação de uma visão;
+  --como criar uma visão chamada "venda_por_cliente" que mostra a quantidade total de vendas de cada cliente na tabela 'payment' no banco de dados Sakila:
+ 
+  CREATE VIEW venda_por_cliente AS
+  SELECT customer_id, SUM(amount) AS total_vendas
+  FROM payment
+  GROUP BY customer_id;
+  
+  --Neste exemplo, a visão "venda_por_cliente" irá calcular a soma das vendas de cada cliente na tabela 'payment' e disponibilizar esses resultados como uma tabela virtual.
 
+  --Depois de criar a visão, você pode consultá-la da mesma forma que faria com uma tabela real.
+  SELECT * FROM venda_por_cliente;
 
 A3) elaborar um programa (sugestão: em python) que percorra os registros obtidos por um dos comandos SQL's que foi criado nos itens "a" a "h".
 
