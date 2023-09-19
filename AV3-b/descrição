@@ -37,9 +37,10 @@ d) unique ou distinct
   SELECT DISTINCT rating
   FROM film;
 
-
 e) junções naturais
-
+  SELECT *
+  FROM film
+  NATURAL JOIN inventory;
  
 f) junção left ou right
   SELECT customer.first_name, customer.last_name, rental.return_date
@@ -47,7 +48,26 @@ f) junção left ou right
   LEFT JOIN rental ON customer.customer_id = rental.customer_id;
 
 g) agregação
-  
+  -> Contagem de Registros 
+  SELECT COUNT(*) AS total_filmes
+  FROM film;
+
+  -> Soma de Valores
+  SELECT SUM(amount) AS receita_total
+  FROM payment;
+
+  -> Média de Valores
+  SELECT AVG(rental_rate) AS media_preco_aluguel
+  FROM rental;
+
+  -> Valor Mínimo e Máximo
+  SELECT MIN(length) AS menor_duracao, MAX(length) AS maior_duracao
+  FROM film;
+
+  -> Agregações com Agrupamento
+  SELECT customer_id, SUM(amount) AS receita_total
+  FROM payment
+  GROUP BY customer_id;
 
 h) group by
 
