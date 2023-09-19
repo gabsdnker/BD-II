@@ -71,6 +71,20 @@ g) agregação
 
 h) group by
 
+  -> Agrupar por uma coluna única
+  SELECT category_id, COUNT(*) AS quantidade_filmes
+  FROM film_category
+  GROUP BY category_id;
+
+  -> Agrupar por várias colunas
+  SELECT customer_id, store_id, COUNT(*) AS quantidade_alugueis
+  FROM rental
+  GROUP BY customer_id, store_id;
+  
+  -> Usar funções de agregação com GROUP BY:
+  SELECT rating, AVG(length) AS media_duracao
+  FROM film
+  GROUP BY rating;
 
 A2) fornecer o comando de criação de uma visão;
 
