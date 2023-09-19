@@ -48,23 +48,28 @@ f) junção left ou right
   LEFT JOIN rental ON customer.customer_id = rental.customer_id;
 
 g) agregação
-  -> Contagem de Registros 
+  -> Contagem de Registros: contar o número de registros em uma tabela 
+  --contar quantos filmes existem na tabela 'film'
   SELECT COUNT(*) AS total_filmes
   FROM film;
 
-  -> Soma de Valores
+  -> Soma de Valores: somar os valores de uma coluna
+  --calcular a receita total de todas as transações na tabela 'payment'
   SELECT SUM(amount) AS receita_total
   FROM payment;
 
   -> Média de Valores
+  -- encontrar a média de preços de aluguel na tabela 'rental'
   SELECT AVG(rental_rate) AS media_preco_aluguel
   FROM rental;
 
   -> Valor Mínimo e Máximo
+  --encontrar o menor e o maior valor de duração (em minutos) na tabela 'film'
   SELECT MIN(length) AS menor_duracao, MAX(length) AS maior_duracao
   FROM film;
 
   -> Agregações com Agrupamento
+  --calcular a receita total para cada cliente na tabela 'payment'
   SELECT customer_id, SUM(amount) AS receita_total
   FROM payment
   GROUP BY customer_id;
