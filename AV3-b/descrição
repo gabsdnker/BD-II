@@ -72,16 +72,19 @@ g) agregação
 h) group by
 
   -> Agrupar por uma coluna única
+  -- contar quantos filmes estão disponíveis em cada categoria da tabela 'film_category'
   SELECT category_id, COUNT(*) AS quantidade_filmes
   FROM film_category
   GROUP BY category_id;
 
   -> Agrupar por várias colunas
+  -- contar quantas transações de aluguel ocorreram para cada combinação de cliente e loja na tabela 'rental'
   SELECT customer_id, store_id, COUNT(*) AS quantidade_alugueis
   FROM rental
   GROUP BY customer_id, store_id;
   
-  -> Usar funções de agregação com GROUP BY:
+  -> Usar funções de agregação com GROUP BY 
+  --para encontrar a média de duração de filmes para cada classificação de filme
   SELECT rating, AVG(length) AS media_duracao
   FROM film
   GROUP BY rating;
