@@ -1,7 +1,5 @@
 Nomes: Gabriel Carvalho e Gabrielli Danker
 
-OBS:. Não foi possível tirar print dos códigos sendo executados, pois os computadores do IFC não estavam salvando de forma alguma os prints, tentando fazer em casa mas não conseguimos fazer funcionar nenhum de nós dois o Mysql.
-
 Avaliação AV3-b
 
 Esta avaliação ocorrerá sobre a base de dados Sakila, portanto dedique um tempo para compreender essa base de dados.
@@ -11,103 +9,22 @@ AÇÕES A SEREM FEITAS:
 A1) elaborar e fornecer comandos SQL que utilizem os recursos abaixo. Além do comando SQL, você deve fornecer também uma descrição textual explicando no que consistem os resultados retornados. Caso queira, pode também explicar o SQL.
 
   a) consultas aninhadas
-    SELECT *
-    FROM actor 
-    WHERE actor_id  IN (SELECT actor_id FROM inventory WHERE last_name = 'BAILEY');
   
   b) consultas aninhadas correlacionadas
-    SELECT customer_id, first_name, last_name
-    FROM customer c
-    WHERE EXISTS (
-        SELECT 1
-        FROM rental r
-        WHERE r.customer_id = c.customer_id
-        AND r.return_date IS NULL
-    );
   
   c) exists 
-    SELECT title
-    FROM film
-    WHERE EXISTS (
-        SELECT 1
-        FROM inventory
-        WHERE inventory.film_id = film.film_id
-        AND inventory.store_id = 1
-    );
   
   d) unique ou distinct
-    SELECT DISTINCT rating
-    FROM film;
   
   e) junções naturais
-    SELECT *
-    FROM film
-    NATURAL JOIN inventory;
    
   f) junção left ou right
-    SELECT customer.first_name, customer.last_name, rental.return_date
-    FROM customer
-    LEFT JOIN rental ON customer.customer_id = rental.customer_id;
   
   g) agregação
-    -> Contagem de Registros: contar o número de registros em uma tabela 
-    --contar quantos filmes existem na tabela 'film'
-    SELECT COUNT(*) AS total_filmes
-    FROM film;
-  
-    -> Soma de Valores: somar os valores de uma coluna
-    --calcular a receita total de todas as transações na tabela 'payment'
-    SELECT SUM(amount) AS receita_total
-    FROM payment;
-  
-    -> Média de Valores
-    -- encontrar a média de preços de aluguel na tabela 'rental'
-    SELECT AVG(rental_rate) AS media_preco_aluguel
-    FROM rental;
-  
-    -> Valor Mínimo e Máximo
-    --encontrar o menor e o maior valor de duração (em minutos) na tabela 'film'
-    SELECT MIN(length) AS menor_duracao, MAX(length) AS maior_duracao
-    FROM film;
-  
-    -> Agregações com Agrupamento
-    --calcular a receita total para cada cliente na tabela 'payment'
-    SELECT customer_id, SUM(amount) AS receita_total
-    FROM payment
-    GROUP BY customer_id;
   
   h) group by
-  
-    -> Agrupar por uma coluna única
-    -- contar quantos filmes estão disponíveis em cada categoria da tabela 'film_category'
-    SELECT category_id, COUNT(*) AS quantidade_filmes
-    FROM film_category
-    GROUP BY category_id;
-  
-    -> Agrupar por várias colunas
-    -- contar quantas transações de aluguel ocorreram para cada combinação de cliente e loja na tabela 'rental'
-    SELECT customer_id, store_id, COUNT(*) AS quantidade_alugueis
-    FROM rental
-    GROUP BY customer_id, store_id;
-    
-    -> Usar funções de agregação com GROUP BY 
-    --para encontrar a média de duração de filmes para cada classificação de filme
-    SELECT rating, AVG(length) AS media_duracao
-    FROM film
-    GROUP BY rating;
 
 A2) fornecer o comando de criação de uma visão;
-  --como criar uma visão chamada "venda_por_cliente" que mostra a quantidade total de vendas de cada cliente na tabela 'payment' no banco de dados Sakila:
- 
-  CREATE VIEW venda_por_cliente AS
-  SELECT customer_id, SUM(amount) AS total_vendas
-  FROM payment
-  GROUP BY customer_id;
-  
-  --Neste exemplo, a visão "venda_por_cliente" irá calcular a soma das vendas de cada cliente na tabela 'payment' e disponibilizar esses resultados como uma tabela virtual.
-
-  --Depois de criar a visão, você pode consultá-la da mesma forma que faria com uma tabela real.
-  SELECT * FROM venda_por_cliente;
 
 A3) elaborar um programa (sugestão: em python) que percorra os registros obtidos por um dos comandos SQL's que foi criado nos itens "a" a "h".
 
