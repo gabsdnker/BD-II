@@ -12,7 +12,7 @@ a) iniciar uma transação
 start transaction;
 
 b) apagar todos os registros de uma tabela
-delete * from XXX;
+delete from XXX;
 
 c) contar os registros da tabela
 select count(*) from XXX;
