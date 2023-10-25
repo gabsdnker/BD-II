@@ -28,50 +28,6 @@ A2) fornecer o comando de criação de uma visão;
 
 A3) elaborar um programa (sugestão: em python) que percorra os registros obtidos por um dos comandos SQL's que foi criado nos itens "a" a "h".
 
-  import mysql.connector
-
-  # Conectando ao banco de dados Sakila
-  conexao = mysql.connector.connect(
-      host="seu_host",
-      user="seu_usuario",
-      password="sua_senha",
-      database="sakila"
-  )
-  
-  # Verificando se a conexão foi bem-sucedida
-  if conexao.is_connected():
-      cursor = conexao.cursor()
-  
-      # Comando SQL para contar os filmes por categoria
-      sql = """
-      SELECT fc.category_id, COUNT(*) AS quantidade_filmes
-      FROM film_category fc
-      JOIN film f ON fc.film_id = f.film_id
-      GROUP BY fc.category_id;
-      """
-  
-      # Executando o comando SQL
-      cursor.execute(sql)
-  
-      # Percorrendo os resultados
-      for (category_id, quantidade_filmes) in cursor:
-          print(f"Categoria {category_id}: {quantidade_filmes} filmes")
-  
-      # Fechando o cursor e a conexão
-      cursor.close()
-      conexao.close()
-  else:
-      print("Não foi possível conectar ao banco de dados")
-  
-  # Exemplo de saída:
-  # Categoria 1: 64 filmes
-  # Categoria 2: 67 filmes
-  # Categoria 3: 68 filmes
-  # ...
-  
-  OBS:. Certifique-se de substituir "seu_host", "seu_usuario", "sua_senha" e "sakila" com os valores apropriados para a sua configuração do banco de dados MySQL Sakila.
-      --> Certifique-se de instalar a biblioteca mysql-connector em seu ambiente Python antes de executar este código.
-          pip install mysql-connector-python
 
 IMPORTAÇÃO DB SAKILA
 
