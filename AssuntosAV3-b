@@ -45,3 +45,30 @@ h) GROUP BY:
     A cláusula GROUP BY é usada para agrupar registros com base em uma ou mais colunas. No exemplo, a consulta calcula a duração média dos aluguéis para cada loja. 
 Os registros são agrupados por store_id, e a função AVG é usada para calcular a média da duração dos aluguéis em cada grupo.
 
+A2) fornecer o comando de criação de uma visão;
+A visão é uma representação virtual dos dados que permite que você acesse informações de clientes juntamente com seus endereços de forma mais conveniente. 
+Aqui estão algumas consultas de exemplo que você pode executar usando a visão:
+
+1- Selecionar todos os clientes com seus respectivos endereços da visão:
+SELECT * FROM customer_info;
+
+Esta consulta retornará todos os clientes com suas informações pessoais e detalhes de endereço em uma única consulta.
+
+2- Filtrar clientes de uma cidade específica:
+SELECT * FROM customer_info WHERE city = 'NomeDaCidade';
+
+Substitua 'NomeDaCidade' pela cidade desejada. Isso retornará todos os clientes que têm um endereço nessa cidade.
+
+3-Encontrar clientes com base em seu ID:
+SELECT * FROM customer_info WHERE customer_id = 1;
+
+Substitua '1' pelo ID do cliente desejado. Isso retornará as informações do cliente específico juntamente com seu endereço.
+
+4- Contar o número de clientes na visão:
+SELECT COUNT(*) FROM customer_info;
+
+Isso retornará o número total de clientes na visão.
+
+A visão "customer_info" simplifica a consulta de informações de clientes e seus endereços, eliminando a necessidade de escrever junções complexas toda vez que você precisar 
+dessas informações. Lembre-se de que a visão é apenas uma representação dos dados subjacentes e não armazena dados reais; 
+ela é atualizada automaticamente à medida que os dados nas tabelas de clientes e endereços são modificados. Isso facilita a consulta de informações de forma mais eficiente.
