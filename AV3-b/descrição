@@ -17,60 +17,67 @@ A1) elaborar e fornecer comandos SQL que utilizem os recursos abaixo. Além do c
   ## Neste exemplo, a consulta aninhada retorna os nomes dos clientes que têm aluguéis ativos.
   
   b) consultas aninhadas correlacionadas: Consulta onde a subconsulta faz referência a uma coluna da consulta principal.
+/* b) consultas aninhadas correlacionadas*/
 
-  SELECT film_id, title
-  FROM film
-  WHERE length > (SELECT AVG(length) FROM film);
+SELECT film_id, title
+FROM film
+WHERE length > (SELECT AVG(length) FROM film);
 
-  ## Aqui, a subconsulta correlacionada calcula a média de duração dos filmes e a consulta principal retorna os filmes com uma 
-  duração maior do que a média.
+/*Aqui, a subconsulta correlacionada calcula a média de duração dos filmes e a consulta principal retorna os filmes com uma 
+  duração maior do que a média.*/
   
   c) exists: Retorna verdadeiro se a subconsulta retornar algum resultado.
+/*c) exists*/
 
-  SELECT customer_id, first_name, last_name
-  FROM customer
-  WHERE EXISTS (SELECT 1 FROM rental WHERE rental.customer_id = customer.customer_id);
+SELECT customer_id, first_name, last_name
+FROM customer
+WHERE EXISTS (SELECT 1 FROM rental WHERE rental.customer_id = customer.customer_id);
 
-  ## Isso retorna os clientes que fizeram pelo menos um aluguel.
+/*Isso retorna os clientes que fizeram pelo menos um aluguel.*/
   
   d) unique ou distinct: Remove valores duplicados de um conjunto de resultados.
+/*d) unique ou distinct*/
 
-  SELECT DISTINCT city
-  FROM address;
-  
-  ## Isso retorna todas as cidades distintas na tabela de endereços.
+SELECT DISTINCT city
+FROM address;
+
+/*Isso retorna todas as cidades distintas na tabela de endereços.*/
   
   e) junções naturais:Une tabelas com base nas colunas que têm o mesmo nome.
+/*e) junções naturais*/
 
-  SELECT customer.first_name, customer.last_name, rental.rental_date
-  FROM customer
-  NATURAL JOIN rental;
+SELECT customer.first_name, customer.last_name, rental.rental_date
+FROM customer
+NATURAL JOIN rental;
 
-  ## Isso retorna informações de clientes e aluguéis combinando automaticamente as colunas com o mesmo nome.
-   
+/*Isso retorna informações de clientes e aluguéis combinando automaticamente as colunas com o mesmo nome.*/
+
   f) junção left ou right: Realiza uma junção mantendo todos os registros da tabela à esquerda (LEFT) ou à direita (RIGHT).
+/* f) junção left ou right*/
 
-  SELECT customer.first_name, customer.last_name, rental.rental_date
-  FROM customer
-  LEFT JOIN rental ON customer.customer_id = rental.customer_id;
+SELECT customer.first_name, customer.last_name, rental.rental_date
+FROM customer
+LEFT JOIN rental ON customer.customer_id = rental.customer_id;
 
-  ## Isso retorna todos os clientes, mesmo que eles não tenham aluguéis (aluguéis nulos são incluídos).
+/*Isso retorna todos os clientes, mesmo que eles não tenham aluguéis (aluguéis nulos são incluídos).*/
   
   g) agregação: Realiza cálculos em grupos de registros.
+/*g) agregação*/
 
-  SELECT store_id, COUNT(rental_id) AS num_rentals
-  FROM rental
-  GROUP BY store_id;
+SELECT store_id, COUNT(rental_id) AS num_rentals
+FROM rental
+GROUP BY store_id;
 
-  ## Isso retorna o número de aluguéis por loja.
+/*Isso retorna o número de aluguéis por loja.*/
   
   h) group by: Agrupa registros com base em uma ou mais colunas.
+/*h) group by*/
 
-  SELECT store_id, AVG(rental_duration) AS avg_duration
-  FROM rental
-  GROUP BY store_id;
+SELECT store_id, AVG(rental_duration) AS avg_duration
+FROM rental
+GROUP BY store_id;
 
-  ## Isso calcula a duração média dos aluguéis para cada loja.
+/*Isso calcula a duração média dos aluguéis para cada loja.*/
 
 A2) fornecer o comando de criação de uma visão;
 
