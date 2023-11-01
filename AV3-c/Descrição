@@ -1,52 +1,61 @@
-Nome: Gabrielli Danker 
+Nome: Gabrielli Danker e Gabriel Carvalho
 
-Criação de Tabela Multiversionada Personalizada:
+Nome do banco de dados: gabi
+Nome da tabela: faculdade
+Colunas da tabela "faculdade": id, nome, idade, email , cpf, curso, semenstre
 
-Suponhamos que você deseje criar uma tabela multiversionada para rastrear as versões de uma entidade chamada "Produto"
-com os atributos "codigo," "nome," e "preco." A estrutura da tabela multiversionada pode ser a seguinte:
-
-Crie uma tabela Produto_Versionado com a seguinte estrutura:
-    id (chave primária)
-    codigo (identificador único do produto)
-    nome (nome do produto)
-    preco (preço do produto)
-    versao (número de versão ou identificador da modificação)
-    data_modificacao (data e hora da modificação)
-
-Ao INSERIR um novo registro na tabela Produto, insira um novo registro na tabela Produto_Versionado com os dados correspondentes, 
-marcando a versão como 1 e registrando a data e hora da modificação.
-
-Ao MODIFICAR um registro na tabela Produto, insira um novo registro na tabela Produto_Versionado com os dados modificados, 
-incrementando a versão em 1 e registrando a data e hora da modificação.
-
-Ao EXCLUIR um registro na tabela Produto, insira um novo registro na tabela Produto_Versionado para registrar a exclusão do produto,
-incrementando a versão em 1 e registrando a data e hora da modificação.
-
-Dessa forma, a tabela Produto_Versionado manterá um histórico completo das versões e modificações dos produtos, 
-permitindo o rastreamento ao longo do tempo.
-
--- Crie a tabela multiversionada para Produto
-CREATE TABLE Produto_Versionado (
+--Criando a tabela "faculdade" no banco de dados "gabi"
+CREATE TABLE gabi.faculdade (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    codigo VARCHAR(50) NOT NULL,
-    nome VARCHAR(100) NOT NULL,
-    preco DECIMAL(10, 2) NOT NULL,
-    versao INT NOT NULL,
-    data_modificacao TIMESTAMP NOT NULL,
-    acao ENUM('INSERIR', 'MODIFICAR', 'EXCLUIR') NOT NULL
+    nome VARCHAR(255),
+    idade INT,
+    email VARCHAR(255),
+    cpf VARCHAR(14),
+    curso VARCHAR(255),
+    semestre INT
 );
 
--- Crie um índice para melhorar o desempenho de consultas
-CREATE INDEX idx_produto_codigo ON Produto_Versionado (codigo);
+--Criando uma tabela para armazenar as versões da tabela "faculdade" com um carimbo de v1, v2, v3, etc...:
+CREATE TABLE gabi.faculdade_versions (
+    version_id INT AUTO_INCREMENT PRIMARY KEY,
+    version_name VARCHAR(10),
+    id INT,
+    nome VARCHAR(255),
+    idade INT,
+    email VARCHAR(255),
+    cpf VARCHAR(14),
+    curso VARCHAR(255),
+    semestre INT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
--- Exemplo de INSERÇÃO em Produto
-INSERT INTO Produto (codigo, nome, preco) VALUES ('12345', 'Produto A', 10.00);
-INSERT INTO Produto_Versionado (codigo, nome, preco, versao, data_modificacao, acao) VALUES ('12345', 'Produto A', 10.00, 1, NOW(), 'INSERIR');
+---Criando um trigger que gere automaticamente o nome da versão com o formato "v1", "v2", "v3"
+DELIMITER //
+CREATE TRIGGER faculdade_version
+BEFORE INSERT ON gabi.faculdade
+FOR EACH ROW
+BEGIN
+    DECLARE next_version INT;
+    SET next_version = (SELECT IFNULL(MAX(version_id), 0) + 1 FROM gabi.faculdade_versions);
+    SET NEW.version_name = CONCAT('v', next_version);
+    
+    INSERT INTO gabi.faculdade_versions (version_name, id, nome, idade, email, cpf, curso, semestre)
+    VALUES (NEW.version_name, OLD.id, OLD.nome, OLD.idade, OLD.email, OLD.cpf, OLD.curso, OLD.semestre);
+END;
+//
+DELIMITER ;
 
--- Exemplo de MODIFICAÇÃO em Produto
-UPDATE Produto SET nome = 'Produto B' WHERE codigo = '12345';
-INSERT INTO Produto_Versionado (codigo, nome, preco, versao, data_modificacao, acao) VALUES ('12345', 'Produto B', 10.00, 2, NOW(), 'MODIFICAR');
-
--- Exemplo de EXCLUSÃO em Produto
-DELETE FROM Produto WHERE codigo = '12345';
-INSERT INTO Produto_Versionado (codigo, nome, preco, versao, data_modificacao, acao) VALUES ('12345', 'Produto B', 10.00, 3, NOW(), 'EXCLUIR');
+--Criando a VIEW
+CREATE OR REPLACE VIEW gabi.faculdade_version_view AS
+SELECT
+    CONCAT('v', v.version_id) AS version_name,
+    f.id,
+    f.nome,
+    f.idade,
+    f.email,
+    f.cpf,
+    f.curso,
+    f.semestre,
+    v.timestamp
+FROM gabi.faculdade_versions v
+JOIN gabi.faculdade f ON v.id = f.id;
