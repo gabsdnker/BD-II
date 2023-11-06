@@ -1,0 +1,15 @@
+1- Criar banco de dados no DBeaver "gabi"
+
+2- SQL Script: criar a tabela "faculdade"
+
+3- Rodar o programa Python "teste.py" para adicionar dados na tabela "faculdade"
+
+4- SQL Script: criar a tabela "faculdade_versions" 
+
+5- Rodar o programa Python "teste2.py" 
+
+6- Fazer o TRIGGER no Script 
+
+7- Fazer a VIEW 
+
+8- Tirar print de todos os passos 
