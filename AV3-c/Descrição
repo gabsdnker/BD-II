@@ -8,7 +8,6 @@ Colunas da tabela "faculdade": id, nome, idade, email , cpf, curso, semenstre
 CREATE TABLE gabi.faculdade (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255),
-    idade INT,
     email VARCHAR(255),
     cpf VARCHAR(14),
     curso VARCHAR(255),
@@ -21,7 +20,6 @@ CREATE TABLE gabi.faculdade_versions (
     version_name VARCHAR(10),
     id INT,
     nome VARCHAR(255),
-    idade INT,
     email VARCHAR(255),
     cpf VARCHAR(14),
     curso VARCHAR(255),
@@ -51,7 +49,6 @@ SELECT
     CONCAT('v', v.version_id) AS version_name,
     f.id,
     f.nome,
-    f.idade,
     f.email,
     f.cpf,
     f.curso,
@@ -59,3 +56,27 @@ SELECT
     v.timestamp
 FROM gabi.faculdade_versions v
 JOIN gabi.faculdade f ON v.id = f.id;
+
+CREATE TRIGGER faculdade_insert
+BEFORE INSERT ON gabi.faculdade
+FOR EACH ROW
+BEGIN
+	DECLARE next_version INT;
+    SET next_version = (SELECT IFNULL(MAX(v), 0) + 1 FROM gabi.faculdade_versions);
+    
+    INSERT INTO gabi.faculdade_versions (v, id, nome, email, cpf, curso, semestre)
+    VALUES (next_version,NEW.id, NEW.nome,NEW.email, NEW.cpf, NEW.curso, NEW.semestre);
+END;
+
+DROP trigger faculdade_insert;
+
+CREATE TABLE gabi.faculdade_versions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255),
+    email VARCHAR(255),
+    cpf VARCHAR(14),
+    curso VARCHAR(255),
+    semestre INT,
+    v INT
+
+);
