@@ -2,9 +2,10 @@ Nome: Gabrielli Danker e Gabriel Carvalho
 
 Nome do banco de dados: gabi
 Nome da tabela: faculdade
-Colunas da tabela "faculdade": id, nome, idade, email , cpf, curso, semenstre
+Colunas da tabela "faculdade": id, nome, email , cpf, curso, semestre
 
---Criando a tabela "faculdade" no banco de dados "gabi"
+/*Criando a tabela "faculdade" no banco de dados "gabi"*/
+
 CREATE TABLE gabi.faculdade (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255),
@@ -12,38 +13,40 @@ CREATE TABLE gabi.faculdade (
     cpf VARCHAR(14),
     curso VARCHAR(255),
     semestre INT
+    v INT
 );
 
---Criando uma tabela para armazenar as versões da tabela "faculdade" com um carimbo de v1, v2, v3, etc...:
+/*Criando uma tabela para armazenar as versões da tabela "faculdade" com um carimbo de v1, v2, v3, etc...*/
+
 CREATE TABLE gabi.faculdade_versions (
-    version_id INT AUTO_INCREMENT PRIMARY KEY,
-    version_name VARCHAR(10),
-    id INT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255),
     email VARCHAR(255),
     cpf VARCHAR(14),
     curso VARCHAR(255),
     semestre INT,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    v INT
+
 );
 
----Criando um trigger que gere automaticamente o nome da versão com o formato "v1", "v2", "v3"
-DELIMITER //
-CREATE TRIGGER faculdade_version
+
+/*Criando um trigger que gere automaticamente o nome da versão com o formato "v1", "v2", "v3" OBS:. Falta criar o UPDATE e o DELETE*/
+
+CREATE TRIGGER faculdade_insert
 BEFORE INSERT ON gabi.faculdade
 FOR EACH ROW
 BEGIN
-    DECLARE next_version INT;
-    SET next_version = (SELECT IFNULL(MAX(version_id), 0) + 1 FROM gabi.faculdade_versions);
-    SET NEW.version_name = CONCAT('v', next_version);
+	DECLARE next_version INT;
+    SET next_version = (SELECT IFNULL(MAX(v), 0) + 1 FROM gabi.faculdade_versions);
     
-    INSERT INTO gabi.faculdade_versions (version_name, id, nome, idade, email, cpf, curso, semestre)
-    VALUES (NEW.version_name, OLD.id, OLD.nome, OLD.idade, OLD.email, OLD.cpf, OLD.curso, OLD.semestre);
+    INSERT INTO gabi.faculdade_versions (v, id, nome, email, cpf, curso, semestre)
+    VALUES (next_version,NEW.id, NEW.nome,NEW.email, NEW.cpf, NEW.curso, NEW.semestre);
 END;
-//
-DELIMITER ;
 
---Criando a VIEW
+/*CANCELAR TRIGGER*/
+DROP trigger faculdade_insert;
+
+/*Criando a VIEW: OBS:. Não foi verificado se está certo*/ 
 CREATE OR REPLACE VIEW gabi.faculdade_version_view AS
 SELECT
     CONCAT('v', v.version_id) AS version_name,
@@ -57,26 +60,5 @@ SELECT
 FROM gabi.faculdade_versions v
 JOIN gabi.faculdade f ON v.id = f.id;
 
-CREATE TRIGGER faculdade_insert
-BEFORE INSERT ON gabi.faculdade
-FOR EACH ROW
-BEGIN
-	DECLARE next_version INT;
-    SET next_version = (SELECT IFNULL(MAX(v), 0) + 1 FROM gabi.faculdade_versions);
-    
-    INSERT INTO gabi.faculdade_versions (v, id, nome, email, cpf, curso, semestre)
-    VALUES (next_version,NEW.id, NEW.nome,NEW.email, NEW.cpf, NEW.curso, NEW.semestre);
-END;
 
-DROP trigger faculdade_insert;
 
-CREATE TABLE gabi.faculdade_versions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255),
-    email VARCHAR(255),
-    cpf VARCHAR(14),
-    curso VARCHAR(255),
-    semestre INT,
-    v INT
-
-);
