@@ -12,7 +12,7 @@ CREATE TABLE gabi.faculdade (
     email VARCHAR(255),
     cpf VARCHAR(14),
     curso VARCHAR(255),
-    semestre INT
+    semestre INT,
     v INT
 );
 
@@ -30,7 +30,7 @@ CREATE TABLE gabi.faculdade_versions (
 );
 
 
-/*Criando um trigger que gere automaticamente o nome da versão com o formato "v1", "v2", "v3" OBS:. Falta criar o UPDATE e o DELETE*/
+/*Criando um trigger que gere automaticamente o nome da versão com o formato "v1", "v2", "v3"*/
 
 CREATE TRIGGER faculdade_insert
 BEFORE INSERT ON gabi.faculdade
