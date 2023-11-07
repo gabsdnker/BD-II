@@ -43,7 +43,7 @@ BEGIN
     VALUES (next_version,NEW.id, NEW.nome,NEW.email, NEW.cpf, NEW.curso, NEW.semestre);
 END;
 
-/*CANCELAR TRIGGER*/
+/*DELETAR TRIGGER*/
 DROP trigger faculdade_insert;
 
 /*Criando a VIEW: OBS:. Não foi verificado se está certo*/ 
