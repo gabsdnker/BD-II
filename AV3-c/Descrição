@@ -47,18 +47,8 @@ END;
 DROP trigger faculdade_insert;
 
 /*Criando a VIEW: OBS:. Não foi verificado se está certo*/ 
-CREATE OR REPLACE VIEW gabi.faculdade_version_view AS
-SELECT
-    CONCAT('v', v.version_id) AS version_name,
-    f.id,
-    f.nome,
-    f.email,
-    f.cpf,
-    f.curso,
-    f.semestre,
-    v.timestamp
-FROM gabi.faculdade_versions v
-JOIN gabi.faculdade f ON v.id = f.id;
-
-
+CREATE VIEW faculdade_view AS 
+SELECT id, nome, email, cpf, curso, semestre, v
+FROM faculdade_versions fv
+order by v DESC;
 
