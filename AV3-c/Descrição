@@ -43,12 +43,23 @@ BEGIN
     VALUES (next_version,NEW.id, NEW.nome,NEW.email, NEW.cpf, NEW.curso, NEW.semestre);
 END;
 
-/*DELETAR TRIGGER*/
-DROP trigger faculdade_insert;
+CREATE TRIGGER faculdade_update
+AFTER UPDATE  ON gabi.faculdade
+FOR EACH ROW
+BEGIN
+	DECLARE next_version INT;
+    SET next_version = (SELECT IFNULL(MAX(v), 0) + 1 FROM gabi.faculdade_versions);
+   
+   INSERT  INTO gabi.faculdade_versions(v, id, nome, email, cpf, curso, semestre) VALUES (next_version, id,old.nome,old.email,old.cpf, old.curso,old.semestre);
+END;
+
+UPDATE faculdade
+SET  nome = "Eduardo3", email ="eduardo@gmail.com",  cpf = "156.823.953-97", curso = "BCC", semestre = "8"
+WHERE id = 1;
+
 
 /*Criando a VIEW: OBS:. Não foi verificado se está certo*/ 
 CREATE VIEW faculdade_view AS 
 SELECT id, nome, email, cpf, curso, semestre, v
 FROM faculdade_versions fv
 order by v DESC;
-
