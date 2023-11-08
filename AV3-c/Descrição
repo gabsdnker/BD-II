@@ -101,7 +101,6 @@ BEGIN
 
 END;
 
-DELETE from faculdade WHERE cpf = "12395845615";
 
 CALL faculdade_insert ("10595845615", "1", "Carla", "carla@gmail.com","BCC","3");
 
