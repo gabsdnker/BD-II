@@ -30,35 +30,92 @@ CREATE TABLE gabi.faculdade_versions (
 );
 
 
-/*Criando um trigger que gere automaticamente o nome da versão com o formato "v1", "v2", "v3"*/
+CREATE PROCEDURE faculdade_insert
 
-CREATE TRIGGER faculdade_insert
-BEFORE INSERT ON gabi.faculdade
-FOR EACH ROW
+(IN pcpf VARCHAR(255),
+
+IN pid VARCHAR(255),
+
+IN pnome VARCHAR(255),
+
+IN pemail VARCHAR(255),
+
+IN pcurso VARCHAR(255),
+
+IN psemestre VARCHAR(255))
+
 BEGIN
+
 	DECLARE next_version INT;
-    SET next_version = (SELECT IFNULL(MAX(v), 0) + 1 FROM gabi.faculdade_versions);
-    
-    INSERT INTO gabi.faculdade_versions (v, id, nome, email, cpf, curso, semestre)
-    VALUES (next_version,NEW.id, NEW.nome,NEW.email, NEW.cpf, NEW.curso, NEW.semestre);
+
+    SET next_version = (SELECT IFNULL(MAX(v), 0) + 1 FROM gabi.faculdade_versions WHERE cpf = pcpf);
+
+   
+
+   	DELETE FROM faculdade WHERE cpf = pcpf;
+
+   	
+
+   	INSERT INTO gabi.faculdade(v, id, nome, email, cpf, curso, semestre)
+
+   	VALUES (next_version,pid, pnome,pemail, pcpf, pcurso, psemestre);
+
+    	
+
 END;
+
 
 CREATE TRIGGER faculdade_update
+
 AFTER UPDATE  ON gabi.faculdade
+
 FOR EACH ROW
+
 BEGIN
+
 	DECLARE next_version INT;
-    SET next_version = (SELECT IFNULL(MAX(v), 0) + 1 FROM gabi.faculdade_versions);
+
+    SET next_version = (SELECT IFNULL(MAX(v), 0) + 1 FROM gabi.faculdade_versions WHERE cpf = new.cpf);
+
    
+
    INSERT  INTO gabi.faculdade_versions(v, id, nome, email, cpf, curso, semestre) VALUES (next_version, id,old.nome,old.email,old.cpf, old.curso,old.semestre);
+
 END;
 
-UPDATE faculdade
-SET  nome = "Eduardo3", email ="eduardo@gmail.com",  cpf = "156.823.953-97", curso = "BCC", semestre = "8"
-WHERE id = 1;
+
+CREATE TRIGGER faculdade_delete
+
+AFTER DELETE ON gabi.faculdade 
+
+FOR EACH ROW 
+
+BEGIN 
+
+	DECLARE next_version INT;
+
+    SET next_version = (SELECT IFNULL(MAX(v), 0) + 1 FROM gabi.faculdade_versions WHERE cpf = old.cpf);
 
 
-/*Criando a VIEW: OBS:. Não foi verificado se está certo*/ 
+   INSERT  INTO gabi.faculdade_versions(v, id, nome, email, cpf, curso, semestre) VALUES (next_version, id,old.nome,old.email,old.cpf, old.curso,old.semestre);
+
+END;
+
+DELETE from faculdade WHERE cpf = "12395845615";
+
+CALL faculdade_insert ("10595845615", "1", "Carla", "carla@gmail.com","BCC","3");
+
+CALL faculdade_insert ("98547825456", "2", "Evandro", "evandro@gmail.com","BEE","4");
+
+CALL faculdade_insert ("12902149123", "3", "Eduardo", "eduardo@gmail.com","BCC","4");
+
+CALL faculdade_insert ("12902149123", "4", "Eduardo", "eduardo@gmail.com","BCC","4");
+
+CALL faculdade_insert ("45648798716", "7", "Gabi", "Gabriel@gmail.com","BEE","2");
+
+CALL faculdade_insert ("35445546656", "8", "Otávio", "otávio@gmail.com","BCC","8");
+
+/*Criando a VIEW */ 
 CREATE VIEW faculdade_view AS 
 SELECT id, nome, email, cpf, curso, semestre, v
 FROM faculdade_versions fv
