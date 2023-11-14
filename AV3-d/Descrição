@@ -1,1 +1,7 @@
-Nome: Gabrielli Danker
+Nome: Gabrielli Danker e Gabriel Carvalho
+
+a) Utilizar (pegar pronto ou popular) um banco de dados no MySql ou no SQLite com muitos registros (mais do que 30.000)
+b) Aplicar alguma otimização X, dentre as possíveis
+c) Verificar se há impacto no tempo de respostas da operações (select, insert, procedimento armazenado ou outro)
+d) Se houver impacto, relatá-lo, caracterizando o cenário do teste realizado e concluir a tarefa.
+e) Se não houver impacto, escolher outra otimização (variar o X) e retornar ao passo c)
