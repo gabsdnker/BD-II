@@ -5,3 +5,5 @@ b) Aplicar alguma otimização X, dentre as possíveis
 c) Verificar se há impacto no tempo de respostas da operações (select, insert, procedimento armazenado ou outro)
 d) Se houver impacto, relatá-lo, caracterizando o cenário do teste realizado e concluir a tarefa.
 e) Se não houver impacto, escolher outra otimização (variar o X) e retornar ao passo c)
+
+OBS:. Utilizamos o SQLite3. Criamos o banco de dados 'Gabi' com a tabela 'students'.
