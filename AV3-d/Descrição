@@ -29,4 +29,4 @@ Run Time: real 1.964 user 0.185392 sys 0.639452
 SELECT "Blood Type", Age FROM students  WHERE Age > '20.0' AND "Blood Type"  = 'O';
 Run Time: real 1.871 user 0.187806 sys 0.617071
 
-OBS:. Utilizamos o SQLite3. Criamos o banco de dados 'Gabi' com a tabela 'students'.
+OBS:. Utilizamos o SQLite3. Criamos o banco de dados 'Gabi' com a tabela 'students'. Prints dos SCRIPtS estão na pasta 'SELECT'.
