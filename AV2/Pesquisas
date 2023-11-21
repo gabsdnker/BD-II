@@ -1,8 +1,5 @@
-Nome da dupla: Gabrielli Danker e Gabriel Carvalho
+Nome da dupla: Gabrielli Danker e Marco Samuelsson
 
-AV3-b
-
-A1)
 a) Consultas Aninhadas:
 Consultas aninhadas são usadas para retornar informações de uma tabela com base em informações de outra tabela. No exemplo fornecido, 
 a consulta retorna os nomes dos clientes que têm aluguéis ativos. O SQL realiza o seguinte:
@@ -19,7 +16,8 @@ A subconsulta correlacionada calcula a média de duração dos filmes na tabela 
 c) EXISTS:
 
 A cláusula EXISTS é usada para retornar verdadeiro se a subconsulta retornar algum resultado. No exemplo fornecido, 
-a consulta retorna clientes que fizeram pelo menos um aluguel. A subconsulta verifica se há pelo menos um registro na tabela rental relacionado ao cliente na tabela customer.
+a consulta retorna clientes que fizeram pelo menos um aluguel. 
+A subconsulta verifica se há pelo menos um registro na tabela rental relacionado ao cliente na tabela customer.
 Se a subconsulta encontrar pelo menos um resultado, a condição EXISTS é verdadeira e o cliente é incluído no resultado.
 
 d) UNIQUE ou DISTINCT:
